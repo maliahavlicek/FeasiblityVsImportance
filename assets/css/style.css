@@ -1,0 +1,229 @@
+/* colors */
+:root {
+    /*Primary Color is Teal Blue */
+    --primary: #12ECCB;
+    --primary-dark: #00D9B1;
+
+    --white: #fff;
+    --gray: rgba(83, 91, 97, 0.32);
+    --gary-dark: #343a40;
+    --gray-light: #535B61;
+    --gray-lighter: #727980;
+    --gray-lightest: #90959a;
+    --black: #000;
+
+    --warning: #EC4646;
+    --link: #0068DB;
+    --gold: #fc0;
+    --gold-dark: #FF8C1C;
+}
+
+
+/* smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* space out forms */
+form {
+    margin: 10px 0;
+}
+
+a{
+    color: var(--link);
+}
+
+/* overwrite styles for base fonts */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* overwrite fonts for headings and navigation */
+h1, h2, h3, h4, h5, h6, a.navbar-brand, a.nav-link {
+    font-family: Tahoma, serif;
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 1.2rem;
+    margin: 15px 0 10px;
+}
+
+/* set fonts buttons and inputs */
+button, input, select, textarea, a.btn, input.btn {
+    font-family: Exo, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    padding: .375rem .25rem;
+}
+
+input[type=checkbox] {
+    padding: 0;
+}
+
+/* buttons colors */
+button.btn, input.btn, a.btn {
+    font-weight: 700;
+    background: var(--primary);
+    text-transform: uppercase;
+    border: none;
+    color: var(--black);
+    cursor: pointer;
+}
+
+input[type=file] {
+    font-size: 16px;
+    font-family: Exo, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* buttons hover */
+button.btn-default:hover, input.btn-primary:hover, a.btn {
+    color: var(--gary-dark);
+    background: var(--primary-dark);
+}
+
+a.btn-cancel, button.btn-cancel, input.btn-cancel, a.btn.btn-cancel {
+    background: var(--gray-lightest);
+    color: #262626;
+}
+
+a.btn-cancel:hover, button.btn-cancel:hover, input.btn-cancel:hover, a.btn.btn-cancel:hover {
+    background: #92a9bf;
+}
+
+a.is-disabled {
+    pointer-events: all;
+    cursor: not-allowed;
+}
+
+/* add background color to rails on desktop + renderings */
+html {
+    background-color: hsl(0, 0%, 86%)
+}
+
+/* have rails appear for larger devices so that content and inputs don't get too wide */
+body, nav, footer {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--white);
+}
+
+/* grid */
+
+.full {
+    grid-column: 1 / span 2;
+}
+
+
+/* main-content height fills page */
+.main-content {
+    min-height: calc(100vh - 13rem);
+}
+
+/* make label stand out more */
+label.control-label, .form-group label, .label {
+    font-weight: 800;
+    color: var(--black);
+}
+
+/* put a colon after a label */
+label.control-label::after, .form-group label:after {
+    content: ':';
+    position: relative;
+}
+
+/* no colon for checkbox groups */
+.form-group .checkbox_select_multiple label::after {
+    content: '';
+}
+
+/* add margin to page-heading */
+.page-heading {
+    margin-top: 10px;
+}
+
+.center {
+    text-align: center;
+}
+.feature-summary-table {
+    grid-template-columns: 1fr repeat(3, .3fr);
+    gap: 0;
+    padding: 0.8rem;
+    display: grid;
+}
+
+.text-upper{
+    text-transform: uppercase;
+}
+
+
+/* TABLET STYLES */
+@media screen and (min-width: 768px) {
+      button, input, select, textarea, a.btn, input.btn {
+        padding: .375rem .5rem;
+    }
+
+    a#add-feature.btn{
+        padding: .375rem .2rem;
+    }
+
+    .table td, .table th {
+        padding: .75rem;
+        font-size: 18px;
+    }
+    /* size links and headers */
+    h1, h2, h3, h4, h5, h6, a.navbar-brand, a.nav-link {
+        font-size: 31px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 28px;
+    }
+
+    h4 {
+        font-size: 26px;
+    }
+
+    h5 {
+        font-size: 24px;
+    }
+    /* grid displays */
+    .full {
+        grid-column: 1 / span 4;
+    }
+     /* main-content height fills page */
+    .main-content {
+        min-height: calc(100vh - 11.5rem);
+    }
+
+}
+/* DESKTOP STYLES */
+/* desktop and larger styles */
+@media screen and (min-width: 1024px) {
+  button, input, select, textarea, a.btn, input.btn {
+        padding: .375rem 1rem;
+    }
+    a#add-feature.btn{
+        padding: .375rem .5rem;
+    }
+}
