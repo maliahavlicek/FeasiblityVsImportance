@@ -14,7 +14,7 @@
 function get_features() {
     // hidden input containing features that is sent to plot
     const list = document.getElementById('id-features-list');
-    let list_value = ""
+    let list_value;
     try {
         if (list.value !== null && list.value !== "") {
             list_value = JSON.parse(list.value);
@@ -33,19 +33,29 @@ function feature_list() {
     let list = get_features();
     // features html output container
     const feature_block = document.getElementById('features-html');
-    feature_block.innerHTML = '';
-    for (let i in list) {
+    if (list.length > 0) {
+        feature_block.innerHTML = `
+                    <div class="border p-1 text-upper">Feature Name</div>
+                    <div class="border p-1 text-upper">Feasibility</div>
+                    <div class="border p-1 text-upper">Importance</div>
+                    <div class="border p-1 text-upper">Remove</div>
+                     `;
+        for (let i in list) {
 
-        let item = `                  
+            let item = `                  
                      <div class="border p-1" id="feature-row-${list[i].slug}">${list[i].feature_name}</div>
-                     <div class="border p-1">${list[i].feasibility}</div>
-                     <div class="border p-1">${list[i].importance}</div>
-                     <div class="border p-1">
-                      <a onclick="remove('${list[i].slug}');" class="btn freature-remove">X</a>
+                     <div class="border p-1 text-center">${list[i].feasibility}</div>
+                     <div class="border p-1 text-center">${list[i].importance}</div>
+                     <div class="border p-1 text-center">
+                      <a tabindex=0" onclick="remove('${list[i].slug}');" class="btn freature-remove">X</a>
                      </div>
                 `;
-        feature_block.innerHTML += item;
+            feature_block.innerHTML += item;
+        }
+    } else {
+        feature_block.innerHTML = '';
     }
+
 
 }
 
@@ -72,42 +82,78 @@ function add_feature() {
     if (list.length < max_features) {
 
         //pull email from input
-        const feature_name = document.getElementById('feature-name').value;
+        const feature_name = document.getElementById('feature-name').value.trim();
         const slug = feature_name.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '').replace(/[ ]/g, '-');
 
         //make sure it's valid first
-        if (slug.length > 0) {
-            // Check that slug is not already in list
-            const slugInList = objectPropInArray(list, 'slug', slug);
 
-            // add it to the list if it's not in there already
-            if (!slugInList) {
-                const feasibility = document.getElementById('feasibility').value;
-                const importance = document.getElementById('importance').value;
-
-                //stuff result into list
-                list.push({
-                    'slug': slug,
-                    'feature_name': feature_name,
-                    'importance': importance,
-                    'feasibility': feasibility,
-                });
-                // set CreateChallengeFrom members value
-                document.getElementById('id-features-list').value = JSON.stringify(list);
-                //clear out entry forms
-                document.getElementById('feature-name').value = '';
-                document.getElementById('feasibility').value = '';
-                document.getElementById('importance').value = '';
-                // update list displayed on page
-                feature_list();
-            } else {
-                //email already in list
-                document.getElementById('feature-name').focus();
-                document.getElementById('feature-name').classList.add('is-invalid');
-                document.getElementById('error-feature-name').classList.add('invalid-feedback');
-                document.getElementById('error-feature-name').innerHTML = '<strong>You already have this feature in the list.</strong>Note: numbers and special characters are stripped off for uniqueness check';
-            }
+        // Check that slug is not already in list
+        const slugInList = objectPropInArray(list, 'slug', slug);
+        const feasibility = document.getElementById('feasibility').value;
+        const importance = document.getElementById('importance').value;
+        let has_error = false;
+        if (parseFloat(feasibility) < 0 || parseFloat(feasibility) > 5) {
+            has_error = true;
+            document.getElementById('feasibility').focus();
+            document.getElementById('feasibility').classList.add('is-invalid');
+            document.getElementById('error-feasibility').classList.add('invalid-feedback');
+            document.getElementById('error-feasibility').innerHTML = 'Values between 0 and 5.';
+        } else {
+            document.getElementById('feasibility').classList.remove('is-invalid');
+            document.getElementById('error-feasibility').classList.remove('invalid-feedback');
+            document.getElementById('error-feasibility').innerHTML = '';
         }
+        if (parseFloat(importance) < 0 || parseFloat(importance) > 5) {
+            has_error = true;
+            document.getElementById('importance').focus();
+            document.getElementById('importance').classList.add('is-invalid');
+            document.getElementById('error-importance').classList.add('invalid-feedback');
+            document.getElementById('error-importance').innerHTML = 'Values between 0 and 5 please.';
+        } else {
+            document.getElementById('importance').classList.remove('is-invalid');
+            document.getElementById('error-importance').classList.remove('invalid-feedback');
+            document.getElementById('error-importance').innerHTML = '';
+        }
+        if (slugInList || feature_name.replaceAll(' ', '').length === 0) {
+            has_error = true;
+            //feature's slug already in list
+            document.getElementById('feature-name').focus();
+            document.getElementById('feature-name').classList.add('is-invalid');
+            document.getElementById('error-feature-name').classList.add('invalid-feedback');
+            if (feature_name.replaceAll(' ', '').length === 0) {
+                document.getElementById('error-feature-name').innerHTML = 'Feature Name cannot be just spaces.';
+            } else {
+                document.getElementById('error-feature-name').innerHTML = '<strong>Entry already in list.</strong>Note: Special characters are stripped off for uniqueness check';
+            }
+        } else {
+            document.getElementById('feature-name').classList.remove('is-invalid');
+            document.getElementById('error-feature-name').classList.remove('invalid-feedback');
+            document.getElementById('error-feature-name').innerHTML = '';
+
+        }
+
+        // add it to the list if no errors
+        if (!has_error) {
+
+            //clear out entry forms
+            document.getElementById('feature-name').value = '';
+            document.getElementById('feasibility').value = '';
+            document.getElementById('importance').value = '';
+
+            //stuff result into list
+            list.push({
+                'slug': slug,
+                'feature_name': feature_name,
+                'importance': importance,
+                'feasibility': feasibility,
+            });
+            // set CreateChallengeFrom members value
+            document.getElementById('id-features-list').value = JSON.stringify(list);
+
+            // update list displayed on page
+            feature_list();
+        }
+
     }
     // see if messaging needs to be shown
     max_feature_messaging();

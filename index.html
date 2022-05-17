@@ -18,6 +18,8 @@
         <div class="col-12">
             <h1>Feasibility Vs Importance Analysis Tool</h1>
             <p>Feel free to use this tool to plot out your feasibility vs importance analysis.</p>
+            <p>Features should be unique</p>
+            <p>Feasibility vs Importance values should be between 0 & 5 using whole or half values.</p>
         </div>
     </div>
     <form class="feature-entry" action="javascript:plot();">
@@ -30,13 +32,6 @@
         <div class="form-row">
             <input type="hidden" id="id-features-list" value="">
             <div class="form-group col-md-12 mb-0"><label>Features</label>
-
-                <div class="feature-summary-table text-upper">
-                    <div class="border p-1">Feature Name</div>
-                    <div class="border p-1">Feasibility</div>
-                    <div class="border p-1">Importance</div>
-                    <div class="border p-1">Remove</div>
-                </div>
                 <div id="features-html" class="feature-summary-table">
                 </div>
             </div>
@@ -51,29 +46,37 @@
             </div>
             <div class="form-group feature-entry col-md-6 mb-0 d-none d-md-block">
                 <div class="form-group">
-                    <div class=""><input class="form-control" id="feature-name" type="text" aria-label="feature-name"
-                                         maxlength="250" placeholder="Feature Name"></div>
+                    <div class="">
+                        <input class="form-control" id="feature-name" type="text" aria-label="feature-name"
+                               maxlength="250" placeholder="Feature Name">
+                        <div id="error-feature-name"></div>
+                    </div>
                 </div>
             </div>
             <div class="form-group feature-entry col-md-2 mb-0 d-none d-md-block">
                 <div class="form-group">
-                    <div class=""><input class="form-control" id="feasibility" type="text"
-                                         pattern="/^(5|[0-4](\.[05])?)$/"
-                                         aria-label="feasibility" maxlength="3" placeholder="Feasibility"></div>
-                </div>
-            </div>
-            <div class="form-group feature-entry col-md-2 mb-0">
-                <div class="form-group">
-                    <div class=""><input class="form-control member importance" id="importance" type="text"
-                                         pattern="^/^(5|[0-4](\.[05])?)$/"
-                                         aria-label="importance" maxlength="3" placeholder="Importance">
-                        <span id="error_importance"></span></div>
+                    <div class="">
+                        <input class="form-control" id="feasibility" type="text"
+                               pattern="/^(5|[0-4](\.[05])?)$/"
+                               aria-label="feasibility" maxlength="3" placeholder="Feasibility">
+                        <div id="error-feasibility"></div>
+                    </div>
                 </div>
             </div>
             <div class="form-group feature-entry col-md-2 mb-0">
                 <div class="form-group">
                     <div class="">
-                        <a onclick="add_feature();" id="add-feature" class="form-control btn btn-primary">
+                        <input class="form-control member importance" id="importance" type="text"
+                               pattern="^/^(5|[0-4](\.[05])?)$/"
+                               aria-label="importance" maxlength="3" placeholder="Importance">
+                        <div id="error-importance"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group feature-entry col-md-2 mb-0">
+                <div class="form-group">
+                    <div class="">
+                        <a tabindex=0" onclick="add_feature();" id="add-feature" class="form-control btn btn-primary">
                             <i class="fas fa-user-plus" aria-hidden="true"></i> Feature
                         </a>
                     </div>
