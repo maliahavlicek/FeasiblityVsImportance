@@ -6,14 +6,15 @@
     <!-- font awesome -->
     <script defer src="https://kit.fontawesome.com/6a08e8ea2d.js" crossorigin="anonymous"
             nonce="4AAemGb0xJpto1GFP3Nd"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--Fetching from CDN of D3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="assets/js/script.js"></script>
+
 
 </head>
 <body>
-<div class="container">
+<div class="container no-print">
     <div class="row">
         <div class="col-12">
             <h1>Feasibility Vs Importance Analysis Tool</h1>
@@ -86,17 +87,57 @@
         <div class="form-row ">
             <div class="col-12">
                 <input type="hidden" id="max-features" value="1000">
+
+                <input type="submit" name="submit" value="Plot Feasibility Analysis" class="btn btn-primary is-disabled"
+                       id="submit-id-submit">
             </div>
-            <input type="submit" name="submit" value="Plot Feasibility Analysis" class="btn btn-primary is-disabled"
-                   id="submit-id-submit">
         </div>
     </form>
 </div>
 
 <div class="container">
-    <div id="label">Feasibility Vs Importance</div>
-    <svg class="scatter-plot"></svg>
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="form-group">
+                <div id="label">Feasibility Vs Importance</div>
+                <svg class="scatter-plot"></svg>
+
+
+                <div style="width:300px; height:300px;">
+                    <center>
+
+                        <h1 style="color:green">
+                            GeeksforGeeks
+                        </h1>
+
+                        <h2>d3.arc()</h2>
+                    </center>
+
+                    <svg width="300" height="300">
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(150,50)");
+
+        // An arc will be created
+        var arc = d3.arc()
+            .innerRadius(40)
+            .outerRadius(45)
+            .startAngle(10)
+            .endAngle(8);
+
+        svg.append("path")
+            .attr("class", "arc")
+            .attr("d", arc)
+            .attr("fill","green");
+    </script>
 
 </body>
 
