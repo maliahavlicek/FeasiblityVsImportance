@@ -54,6 +54,21 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // setup
+
+    //curves
+    const curves = {
+        id: 'curves',
+        beforeDraw(chart, args, options) {
+            const {ctx, chartArea: {top, bottom, left, right, width, height}, scales: {x, y}} = chart;
+            ctx.save();
+
+            // rest of grid, features not doing
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = '#E5E5E5';
+            ctx.fillRect(left, top, width, height);
+            ctx.restore();
+        }
+    };
     const data = {
 
         datasets: [{
@@ -99,63 +114,66 @@
             borderColor: 'rgba(0, 0, 0)',
             backgroundColor: 'rgba(0, 0, 0)',
         }, {
-            label: 'Maybe Features',
+            label: 'skip legend',
             data: [
-                {x: 3.1, y: 5},
-                {x: 4, y: 2.5},
-                {x: 3.5, y: 4},
-                {x: 2, y: 3},
-                {x: 3.5, y: 3.8},
-                {x: 3.8, y: 1.5},
+                {x: 3.25, y: 5},
+                {x: 3.25042728, y: 4.961330916},
+                {x: 3.260694856, y: 4.806822323},
+                {x: 3.321867556, y: 4.503641761},
+                {x: 3.372314587, y: 4.357240172},
+                {x: 3.597982887, y: 3.952694879},
+                {x: 3.921887643, y: 3.621532102},
+                {x: 4.047963056, y: 3.531624824},
+                {x: 4.321333514, y: 3.386955735},
+                {x: 4.466581413, y: 3.333277284},
+                {x: 4.768332149, y: 3.265402062},
+                {x: 4.922575313, y: 3.251713577},
+                {x: 5, y: 3.25}
+            ],
+            backgroundColor: 'rgba(255, 26, 104)',
+            borderColor: 'rgba(255, 26, 104)',
+            showLine: 'true',
+            tension: 0.4,
+            fill: {
+                target: {value: 25},
+                above: 'rgba(54, 162, 235, .2)',
+                below: 'rgba(255, 26, 104, .2)',
+            },
+            pointRadius: 0,
+            pointHitRadius: 0,
+        }, {
+            label: 'skip legend',
+            data: [
+                {x: 1.25, y: 5},
+                {x: 1.25091560037069, y: 4.91713767770494},
+                {x: 1.27291754778734, y: 4.58604783560357},
+                {x: 1.4040019060977, y: 3.93637520306688},
+                {x: 1.51210268679964, y: 3.62265751079489},
+                {x: 1.99567761599814, y: 2.75577474103303},
+                {x: 1.99567761599814, y: 2.75577474103303},
+                {x: 2.68975923479988, y: 2.04614021883103},
+                {x: 2.68975923479988, y: 2.04614021883103},
+                {x: 2.95992083416486, y: 1.8534817659633},
+                {x: 3.54571467189039, y: 1.54347657545257},
+                {x: 3.85696017086669, y: 1.42845132344316},
+                {x: 4.50356889047956, y: 1.28300441841797},
+                {x: 4.83408995718098, y: 1.25367195007007},
+                {x: 5, y: 1.25},
             ],
 
             borderColor: 'rgba(54, 162, 235)',
             backgroundColor: 'rgba(54, 162, 235)',
-        }]
-    };
-
-    //curves
-    const curves = {
-        id: 'curves',
-        beforeDraw(chart, args, options) {
-            const {ctx, chartArea: {top, bottom, left, right, width, height}, scales: {x, y}} = chart;
-            ctx.save();
-
-            // features in quadrant
-            ctx.beginPath();
-            let radius = height / 5 * 1.75;
-            let centerx = x.getPixelForValue(5);
-            let centery = y.getPixelForValue(5);
-            let offset = Math.PI / 2;
-
-            ctx.moveTo(centerx, centery);
-            let arcsector = Math.PI * (2 * .25);
-            let lastend = 2 * arcsector;
-            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
-            ctx.lineTo(centerx, centery);
-            ctx.fillStyle = 'rgba(200, 0, 0, 0.2)';
-            ctx.fill();
-            ctx.closePath();
-
-            // features maybe quadrant
-            ctx.beginPath();
-            radius = height / 5 * 3.75;
-            offset = Math.PI / 2;
-            ctx.moveTo(centerx, centery);
-            arcsector = Math.PI * (2 * .25);
-            lastend = 2 * arcsector;
-            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
-            ctx.lineTo(centerx, centery);
-            ctx.fillStyle = 'rgba(54, 162, 235, 0.2)';
-            ctx.fill();
-            ctx.closePath();
-
-            // rest of grid, features not doing
-            ctx.globalCompositeOperation = 'destination-over';
-            ctx.fillStyle = '#E5E5E5';
-            ctx.fillRect(left, top, width, height);
-            ctx.restore();
+            showLine: 'true',
+            tension: 0.01,
+            fill: {
+                target: {value: 25},
+                below: 'rgba(54, 162, 235, .2)',
+            },
+            pointRadius: 0,
+            pointHitRadius: 0,
         }
+
+        ]
     };
 
     // config
@@ -163,6 +181,15 @@
         type: 'scatter',
         data,
         options: {
+
+            legend: {
+                labels: {
+                    filter: function (item, myChart) {
+                        // Logic to remove a particular legend item goes here
+                        return !item.text.includes('skip legend');
+                    }
+                }
+            },
             scales: {
                 x: {
                     suggestedMin: 0,
@@ -178,18 +205,19 @@
                     },
                     beginAtZero: true,
                     grid: {
-						color: '#000',
-						drawBorder: false
-					},
+                        color: '#000',
+                        drawBorder: false
+                    },
+                    stacked: true,
                 },
                 y: {
                     suggestedMin: 0,
                     suggestedMax: 5,
                     beginAtZero: true,
                     grid: {
-						color: '#000',
-						drawBorder: false
-					},
+                        color: '#000',
+                        drawBorder: false
+                    },
                     title: {
                         color: 'black',
                         display: true,
@@ -204,7 +232,12 @@
             aspectRatio: 1,
             responsive: true,
         },
-        plugins: [curves]
+        plugins: [curves, {
+            filler: {
+                propagate: true
+            }
+        }]
+
     };
 
     // render init block
