@@ -179,6 +179,26 @@ label.control-label::after, .form-group label:after {
     height: Min(100vh - 100px, 100vh - 100px);
 }
 
+
+.grid {
+    display: grid;
+    gap: 1em;
+    grid-template-rows: min-content minmax(0, 1fr) min-content;
+    grid-template-columns: 1fr minmax(0, 3fr);
+    grid-template-areas: "a h"
+											 "a c"
+											 "a f";
+    height: calc(100vh - 2em);
+    width: calc(100vw - 2em); /* not necessary, but just to be explicit */
+    margin: 1em;
+}
+
+aside {
+    grid-area: a;
+    padding: 1em;
+
+}
+
 /* TABLET STYLES */
 @media screen and (min-width: 768px) {
     button, input, select, textarea, a.btn, input.btn {

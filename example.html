@@ -33,7 +33,8 @@
         }
 
         .chartBox {
-            width: 700px;
+            width: Min(100vh - 100px, 100vh - 100px);
+            height: Min(100vh - 100px, 100vh - 100px);
             padding: 20px;
             border-radius: 20px;
             border: solid 3px rgba(255, 26, 104, 1);
@@ -97,6 +98,19 @@
 
             borderColor: 'rgba(0, 0, 0)',
             backgroundColor: 'rgba(0, 0, 0)',
+        }, {
+            label: 'Maybe Features',
+            data: [
+                {x: 3.1, y: 5},
+                {x: 4, y: 2.5},
+                {x: 3.5, y: 4},
+                {x: 2, y: 3},
+                {x: 3.5, y: 3.8},
+                {x: 3.8, y: 1.5},
+            ],
+
+            borderColor: 'rgba(54, 162, 235)',
+            backgroundColor: 'rgba(54, 162, 235)',
         }]
     };
 
@@ -161,18 +175,34 @@
                         display: true,
                         text: 'Importance'
                     },
+                    ticks: {
+                        stepSize: 1
+                    },
+                    beginAtZero: true,
+                    grid: {
+						color: '#000',
+						drawBorder: false
+					},
                 },
                 y: {
                     suggestedMin: 0,
                     suggestedMax: 5,
+                    beginAtZero: true,
+                    grid: {
+						color: '#000',
+						drawBorder: false
+					},
                     title: {
                         color: 'black',
                         display: true,
                         text: 'Feasibility'
                     },
+                    ticks: {
+                        stepSize: 1
+                    },
                 }
             },
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             aspectRatio: 1,
             responsive: true,
         },

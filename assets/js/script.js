@@ -320,6 +320,46 @@ function chartIt() {
             data: outs,
             borderColor: 'rgba(150, 150, 150, 0.2)',
             backgroundColor: 'rgba(150, 150, 150)',
+        }, {
+            data: [
+                {x: 5, y: 6.75},
+                {x: 4.047963056, y: 3.531624824},
+                {x: 6.597654189, y: 5.714143608},
+                {x: 3.270944658, y: 5.269940037},
+                {x: 6.303948031, y: 3.832858392},
+                {x: 4.540844006, y: 6.68869055},
+                {x: 4.466581413, y: 3.333277284},
+                {x: 6.354308693, y: 6.108308605},
+                {x: 3.260694856, y: 4.806822323},
+                {x: 6.564494161, y: 4.215871172},
+                {x: 4.113860128, y: 6.509058027},
+                {x: 4.922575313, y: 3.251713577},
+                {x: 6.016069572, y: 6.424816698},
+                {x: 3.372314587, y: 4.357240172},
+                {x: 6.715419404, y: 4.653826245},
+                {x: 3.748966248, y: 6.223688911},
+                {x: 5.383994202, y: 3.292648703},
+                {x: 5.606636547, y: 6.641490816},
+                {x: 3.597982887, y: 3.952694879},
+                {x: 6.746148738, y: 5.116037002},
+                {x: 3.47172973, y: 5.852578431},
+                {x: 5.818507407, y: 3.453214422},
+                {x: 5.154697747, y: 6.743149049},
+                {x: 3.921887643, y: 3.621532102},
+                {x: 6.654529021, y: 5.570117285},
+                {x: 3.301575966, y: 5.421729534},
+                {x: 6.195669482, y: 3.722160225},
+                {x: 4.691919594, y: 6.722668414},
+                {x: 4.321333514, y: 3.386955735},
+                {x: 6.446979859, y: 5.984250622},
+                {x: 3.25042728, y: 4.961330916},
+                {x: 6.489053455, y: 4.080641633},
+                {x: 4.250728001, y: 6.581483946},
+                {x: 4.768332149, y: 3.265402062},
+                {x: 6.138043795, y: 6.329419543},
+                {x: 3.321867556, y: 4.503641761},
+                {x: 6.678102516, y: 4.50354059}
+            ]
         }],
     };
 
@@ -338,28 +378,50 @@ function chartIt() {
             options: {
                 scales: {
                     x: {
-                        suggestedMin: 0,
-                        suggestedMax: 5,
-
+                        min: 0,
+                        max: 5,
                         title: {
                             color: 'black',
                             display: true,
                             text: 'Importance'
                         },
+                        ticks: {
+                            min: 6,
+                            max: 6,
+                            scaleStepWidth: 1,
+                            stepSize: 1,
+                        },
+                        beginAtZero: true,
+                        grid: {
+                            color: '#000',
+                            drawBorder: false
+                        },
                     },
                     y: {
-                        suggestedMin: 0,
-                        suggestedMax: 5,
+                        min: 0,
+                        max: 5,
                         title: {
                             color: 'black',
                             display: true,
                             text: 'Feasibility'
                         },
-                    }
+                        ticks: {
+                            min: 6,
+                            max: 6,
+                            scaleStepWidth: 1,
+                            stepSize: 1,
+                        },
+                        beginAtZero: true,
+                        grid: {
+                            color: '#000',
+                            drawBorder: false
+                        },
+                    },
+
                 },
-                maintainAspectRatio: true,
-                aspectRatio: 1,
+                maintainAspectRatio: false,
                 responsive: true,
+                aspectRatio: 1,
             },
             plugins: [bullsEyeBackground],
         });
@@ -370,14 +432,26 @@ function chartIt() {
 
 function addData(chart) {
     const raw_data = get_features();
-    chart.data.datasets.forEach((dataset) => {
-        raw_data.forEach(item => {
-            dataset.data.push({
+
+    raw_data.forEach(item => {
+        const color = getColor(parseFloat(item.importance), parseFloat(item.feasibility));
+        if (color === 'red') {
+            chart.data.datasets[0].data.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+        } else if (color == 'blue') {
+            chart.data.datasets[1].data.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+        } else {
+            chart.data.datasets[2].data.push({
                 x: parseFloat(item.importance),
                 y: parseFloat(item.feasibility)
             })
 
-        });
+        }
     });
     chart.update();
 }
@@ -386,13 +460,10 @@ function removeData(chart) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.pop();
     });
-    chart.update();
 }
 
 
 function getColor(x, y) {
-
-
     let distFromTopRight = Math.sqrt(((5 - parseFloat(x)) ** 2) + ((5 - parseFloat(y)) ** 2));
     if (distFromTopRight < inDistFromTopRight) {
         return 'red'; //  in
