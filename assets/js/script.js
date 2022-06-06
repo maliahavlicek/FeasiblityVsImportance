@@ -10,6 +10,10 @@
  */
 
 
+/* constants to help adjust bulleye ranges */
+const inDistFromTopRight = 1.75;
+const maybeDistFromTopRight = 3.75;
+
 /* helper function to get list of members */
 function get_features() {
     // hidden input containing features that is sent to plot
@@ -225,3 +229,176 @@ function objectPropInArray(list, prop, val) {
 document.addEventListener("DOMContentLoaded", function () {
     feature_list();
 });
+
+function chartIt() {
+    const raw_data = get_features();
+    let chartData = []
+    let ins = [];
+    let outs = [];
+    let maybes = [];
+
+    raw_data.forEach(item => {
+        const color = getColor(parseFloat(item.importance), parseFloat(item.feasibility));
+        if (color === 'red') {
+            ins.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+        } else if (color == 'blue') {
+            maybes.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+        } else {
+            outs.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+
+        }
+    });
+
+    // bulls-eye-background
+    const bullsEyeBackground = {
+        id: 'curves',
+        beforeDraw(chart, args, options) {
+            const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+            ctx.save();
+
+            // features in quadrant
+            ctx.beginPath();
+            let radius = height / 5 * inDistFromTopRight;
+            let centerx = right;
+            let centery = top;
+            let offset = Math.PI / 2;
+
+            ctx.moveTo(centerx, centery);
+            let arcsector = Math.PI * (2 * .25);
+            let lastend = 2 * arcsector;
+            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
+            ctx.lineTo(centerx, centery);
+            ctx.fillStyle = 'rgba(200, 0, 0, 0.2)';
+            ctx.fill();
+            ctx.closePath();
+
+            // features maybe quadrant
+            ctx.beginPath();
+            radius = height / 5 * maybeDistFromTopRight;
+            centerx = right;
+            centery = top;
+            offset = Math.PI / 2;
+            ctx.moveTo(centerx, centery);
+            arcsector = Math.PI * (2 * .25);
+            lastend = 2 * arcsector;
+            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
+            ctx.lineTo(centerx, centery);
+            ctx.fillStyle = 'rgba(54, 162, 235, 0.2)';
+            ctx.fill();
+            ctx.closePath();
+
+            // rest of grid, features not doing
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = '#E5E5E5';
+            ctx.fillRect(left, top, width, height);
+            ctx.restore();
+        }
+    };
+
+    const data = {
+        datasets: [{
+            label: 'Features to Build',
+            data: ins,
+            borderColor: 'rgba(200, 0, 0, 0.2)',
+            backgroundColor: 'rgba(200, 0, 0)',
+        }, {
+            label: 'Features to Contemplate',
+            data: maybes,
+            borderColor: 'rgba(54, 162, 235, 0.2)',
+            backgroundColor: 'rgba(54, 162, 235)',
+        }, {
+            label: 'Features to Skip',
+            data: outs,
+            borderColor: 'rgba(150, 150, 150, 0.2)',
+            backgroundColor: 'rgba(150, 150, 150)',
+        }],
+    };
+
+    console.log(data)
+
+    // clean out any existing chart
+
+    let chart = Chart.getChart("feasibility-chart"); // <canvas> id
+    if (chart != undefined) {
+        removeData(chart);
+        addData(chart, data);
+    } else {
+        new Chart("feasibility-chart", {
+            type: 'scatter',
+            data: data,
+            options: {
+                scales: {
+                    x: {
+                        suggestedMin: 0,
+                        suggestedMax: 5,
+
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Importance'
+                        },
+                    },
+                    y: {
+                        suggestedMin: 0,
+                        suggestedMax: 5,
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Feasibility'
+                        },
+                    }
+                },
+                maintainAspectRatio: true,
+                aspectRatio: 1,
+                responsive: true,
+            },
+            plugins: [bullsEyeBackground],
+        });
+    }
+
+
+}
+
+function addData(chart) {
+    const raw_data = get_features();
+    chart.data.datasets.forEach((dataset) => {
+        raw_data.forEach(item => {
+            dataset.data.push({
+                x: parseFloat(item.importance),
+                y: parseFloat(item.feasibility)
+            })
+
+        });
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
+
+function getColor(x, y) {
+
+
+    let distFromTopRight = Math.sqrt(((5 - parseFloat(x)) ** 2) + ((5 - parseFloat(y)) ** 2));
+    if (distFromTopRight < inDistFromTopRight) {
+        return 'red'; //  in
+    } else if (distFromTopRight < maybeDistFromTopRight) {
+        return 'blue'; // maybe
+    } else {
+        return 'gray'; // out
+    }
+}

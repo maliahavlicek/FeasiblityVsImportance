@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(255, 26, 104, 1);
+        }
+
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .chartCard {
+            width: 100vw;
+            height: calc(100vh - 40px);
+            background: rgba(255, 26, 104, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chartBox {
+            width: 700px;
+            padding: 20px;
+            border-radius: 20px;
+            border: solid 3px rgba(255, 26, 104, 1);
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<div class="chartMenu">
+    <p>WWW.CHARTJS3.COM (Chart JS 3.8.0)</p>
+</div>
+<div class="chartCard">
+    <div class="chartBox">
+        <canvas id="myChart" style="width:300px;height:300px;"></canvas>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // setup
+    const data = {
+
+        datasets: [{
+            label: 'Features To Do',
+            data: [
+                {x: 3.8, y: 5},
+                {x: 4, y: 4},
+                {x: 3.5, y: 4.6},
+                {x: 4, y: 4.9},
+                {x: 5, y: 3.8},
+                {x: 3.7, y: 4.1},
+            ],
+            backgroundColor: [
+                'rgba(255, 26, 104)',
+            ],
+            borderColor: [
+                'rgba(255, 26, 104, 1)',
+            ],
+        }, {
+            label: 'Maybe Features',
+            data: [
+                {x: 3.1, y: 5},
+                {x: 4, y: 2.5},
+                {x: 3.5, y: 4},
+                {x: 2, y: 3},
+                {x: 3.5, y: 3.8},
+                {x: 3.8, y: 1.5},
+            ],
+
+            borderColor: 'rgba(54, 162, 235)',
+            backgroundColor: 'rgba(54, 162, 235)',
+        }, {
+            label: 'Skipped Features',
+            data: [
+                {x: 2.1, y: 2.1},
+                {x: 1.4, y: 2.5},
+                {x: 3.5, y: 1.4},
+                {x: 2.9, y: 0.3},
+                {x: 3.5, y: 1},
+                {x: 0.2, y: 1.5},
+            ],
+
+            borderColor: 'rgba(0, 0, 0)',
+            backgroundColor: 'rgba(0, 0, 0)',
+        }]
+    };
+
+    //curves
+    const curves = {
+        id: 'curves',
+        beforeDraw(chart, args, options) {
+            const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+            ctx.save();
+
+            // features in quadrant
+            ctx.beginPath();
+            let radius = height / 5 * 1.75;
+            let centerx = right;
+            let centery = top;
+            let offset = Math.PI / 2;
+
+            ctx.moveTo(centerx, centery);
+            let arcsector = Math.PI * (2 * .25);
+            let lastend = 2 * arcsector;
+            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
+            ctx.lineTo(centerx, centery);
+            ctx.fillStyle = 'rgba(200, 0, 0, 0.2)';
+            ctx.fill();
+            ctx.closePath();
+
+            // features maybe quadrant
+            ctx.beginPath();
+            radius = height / 5 * 3.75;
+            centerx = right;
+            centery = top;
+            offset = Math.PI / 2;
+            ctx.moveTo(centerx, centery);
+            arcsector = Math.PI * (2 * .25);
+            lastend = 2 * arcsector;
+            ctx.arc(centerx, centery, radius, lastend - offset, lastend + arcsector - offset, false);
+            ctx.lineTo(centerx, centery);
+            ctx.fillStyle = 'rgba(54, 162, 235, 0.2)';
+            ctx.fill();
+            ctx.closePath();
+
+            // rest of grid, features not doing
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = '#E5E5E5';
+            ctx.fillRect(left, top, width, height);
+            ctx.restore();
+        }
+    };
+
+    // config
+    const config = {
+        type: 'scatter',
+        data,
+        options: {
+            scales: {
+                x: {
+                    suggestedMin: 0,
+                    suggestedMax: 5,
+
+                    title: {
+                        color: 'black',
+                        display: true,
+                        text: 'Importance'
+                    },
+                },
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: 5,
+                    title: {
+                        color: 'black',
+                        display: true,
+                        text: 'Feasibility'
+                    },
+                }
+            },
+            maintainAspectRatio: true,
+            aspectRatio: 1,
+            responsive: true,
+        },
+        plugins: [curves]
+    };
+
+    // render init block
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
+
+</body>
+</html>

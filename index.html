@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!--Fetching from CDN of D3.js -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <!-- get chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js"></script>
     <script src="assets/js/script.js"></script>
 
 
@@ -23,7 +25,7 @@
             <p>Feasibility vs Importance values should be between 0 & 5 using whole or half values.</p>
         </div>
     </div>
-    <form class="feature-entry" action="javascript:plot();">
+    <form class="feature-entry" action="javascript:chartIt();">
         <div class="form-row form-row step1">
             <div class="form-group col-12 mb-0">
                 <h2>Step 1: Enter your Features</h2>
@@ -95,49 +97,15 @@
     </form>
 </div>
 
+
 <div class="container">
-    <div class="row">
-        <div class="col-12 mt-3">
-            <div class="form-group">
-                <div id="label">Feasibility Vs Importance</div>
-                <svg class="scatter-plot"></svg>
-
-
-                <div style="width:300px; height:300px;">
-                    <center>
-
-                        <h1 style="color:green">
-                            GeeksforGeeks
-                        </h1>
-
-                        <h2>d3.arc()</h2>
-                    </center>
-
-                    <svg width="300" height="300">
-                    </svg>
-                </div>
-            </div>
+    <div id="label">Feasibility Vs Importance</div>
+    <div class="chart-area">
+            <canvas id="feasibility-chart" style="width:250px;height:250px;"></canvas>
         </div>
-    </div>
 </div>
 
-<script>
-        var svg = d3.select("svg")
-            .append("g")
-            .attr("transform", "translate(150,50)");
 
-        // An arc will be created
-        var arc = d3.arc()
-            .innerRadius(40)
-            .outerRadius(45)
-            .startAngle(10)
-            .endAngle(8);
-
-        svg.append("path")
-            .attr("class", "arc")
-            .attr("d", arc)
-            .attr("fill","green");
-    </script>
 
 </body>
 
