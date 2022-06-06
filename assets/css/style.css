@@ -29,7 +29,7 @@ form {
     margin: 10px 0;
 }
 
-a{
+a {
     color: var(--link);
 }
 
@@ -161,6 +161,7 @@ label.control-label::after, .form-group label:after {
 .center {
     text-align: center;
 }
+
 .feature-summary-table {
     grid-template-columns: 1fr repeat(3, .3fr);
     gap: 0;
@@ -168,18 +169,23 @@ label.control-label::after, .form-group label:after {
     display: grid;
 }
 
-.text-upper{
+.text-upper {
     text-transform: uppercase;
 }
 
 
+.chart-area {
+    width: Min(100vh - 100px, 100vh - 100px);
+    height: Min(100vh - 100px, 100vh - 100px);
+}
+
 /* TABLET STYLES */
 @media screen and (min-width: 768px) {
-      button, input, select, textarea, a.btn, input.btn {
+    button, input, select, textarea, a.btn, input.btn {
         padding: .375rem .5rem;
     }
 
-    a#add-feature.btn{
+    a#add-feature.btn {
         padding: .375rem .2rem;
     }
 
@@ -187,6 +193,7 @@ label.control-label::after, .form-group label:after {
         padding: .75rem;
         font-size: 18px;
     }
+
     /* size links and headers */
     h1, h2, h3, h4, h5, h6, a.navbar-brand, a.nav-link {
         font-size: 31px;
@@ -207,23 +214,27 @@ label.control-label::after, .form-group label:after {
     h5 {
         font-size: 24px;
     }
+
     /* grid displays */
     .full {
         grid-column: 1 / span 4;
     }
-     /* main-content height fills page */
+
+    /* main-content height fills page */
     .main-content {
         min-height: calc(100vh - 11.5rem);
     }
 
 }
+
 /* DESKTOP STYLES */
 /* desktop and larger styles */
 @media screen and (min-width: 1024px) {
-  button, input, select, textarea, a.btn, input.btn {
+    button, input, select, textarea, a.btn, input.btn {
         padding: .375rem 1rem;
     }
-    a#add-feature.btn{
+
+    a#add-feature.btn {
         padding: .375rem .5rem;
     }
 }
