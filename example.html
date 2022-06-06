@@ -118,7 +118,7 @@
     const curves = {
         id: 'curves',
         beforeDraw(chart, args, options) {
-            const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+            const {ctx, chartArea: {top, bottom, left, right, width, height}, scales: {x, y}} = chart;
             ctx.save();
 
             // features in quadrant

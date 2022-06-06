@@ -308,18 +308,18 @@ function chartIt() {
         datasets: [{
             label: 'Features to Build',
             data: ins,
-            borderColor: 'rgba(200, 0, 0, 0.2)',
+            borderColor: 'rgba(200, 0, 0)',
             backgroundColor: 'rgba(200, 0, 0)',
         }, {
             label: 'Features to Contemplate',
             data: maybes,
-            borderColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235)',
             backgroundColor: 'rgba(54, 162, 235)',
         }, {
             label: 'Features to Skip',
             data: outs,
-            borderColor: 'rgba(150, 150, 150, 0.2)',
-            backgroundColor: 'rgba(150, 150, 150)',
+            borderColor: 'rgba(0, 0, 0)',
+            backgroundColor: 'rgba(0, 0, 0)',
         }, {
             data: [
                 {x: 5, y: 6.75},

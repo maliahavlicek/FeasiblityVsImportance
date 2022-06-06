@@ -54,15 +54,20 @@
 <script>
     // setup
 
-    const curves = {
-        id: 'curves',
-        beforeDatasetsDraw(chart, args, pluginOptions) {
+    const scatterLines = {
+      id: 'featuresToDoLine',
+        beforeDraw(chart, args, options) {
             const {
                 ctx, chartArea: {top, bottom, left, right, width, height},
                 scales: {x, y}
             } = chart;
             ctx.save();
             ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255, 26, 104, 1)';
+            ctx.lineWidth = 3;
+            // ctx.arc(Cx, Cy, r, starting angle, ending angle)
+            ctx.arc(x.getPixelForValue(5), y.getPixelForValue(5), width / 5 *.75, 0, 2*Math.PI)
+            ctx.stroke();
         }
 
     }
@@ -124,6 +129,7 @@
                 }
             }
         },
+      plugins: [scatterLines],
     };
 
     // render init block
