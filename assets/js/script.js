@@ -372,10 +372,25 @@ function chartIt() {
         removeData(chart);
         addData(chart, data);
     } else {
-        new Chart("feasibility-chart", {
+        chart = new Chart("feasibility-chart", {
             type: 'scatter',
             data: data,
             options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            filter: function(legendItem, data) {
+                                let label = data.datasets[legendItem.datasetIndex].label || '';
+                                if (typeof(label) !== 'undefined') {
+                                    if (legendItem.datasetIndex >= 3){
+                                        return false;
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
                 scales: {
                     x: {
                         min: 0,

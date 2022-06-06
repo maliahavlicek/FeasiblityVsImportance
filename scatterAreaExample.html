@@ -160,7 +160,6 @@
                 {x: 4.83408995718098, y: 1.25367195007007},
                 {x: 5, y: 1.25},
             ],
-
             borderColor: 'rgba(54, 162, 235)',
             backgroundColor: 'rgba(54, 162, 235)',
             showLine: 'true',
@@ -181,12 +180,18 @@
         type: 'scatter',
         data,
         options: {
-
-            legend: {
-                labels: {
-                    filter: function (item, myChart) {
-                        // Logic to remove a particular legend item goes here
-                        return !item.text.includes('skip legend');
+            plugins: {
+                legend: {
+                    labels: {
+                        filter: function (legendItem, data) {
+                            let label = data.datasets[legendItem.datasetIndex].label || '';
+                            if (typeof (label) !== 'undefined') {
+                                if (legendItem.datasetIndex >= 3) {
+                                    return false;
+                                }
+                            }
+                            return label;
+                        }
                     }
                 }
             },
