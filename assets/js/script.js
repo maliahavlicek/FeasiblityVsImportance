@@ -65,12 +65,11 @@ function feature_list() {
 
 
 /* Remove Member from list */
-function remove(slug) {
+function remove(removedItem) {
     let list = get_features();
+    list.splice(list.findIndex(({slug}) => slug == removedItem), 1);
 
-    list = $.grep(list, function (e) {
-        return e.slug !== slug;
-    });
+
     document.getElementById('id-features-list').value = JSON.stringify(list);
     max_feature_messaging();
     feature_list();
@@ -320,46 +319,6 @@ function chartIt() {
             data: outs,
             borderColor: 'rgba(0, 0, 0)',
             backgroundColor: 'rgba(0, 0, 0)',
-        }, {
-            data: [
-                {x: 5, y: 6.75},
-                {x: 4.047963056, y: 3.531624824},
-                {x: 6.597654189, y: 5.714143608},
-                {x: 3.270944658, y: 5.269940037},
-                {x: 6.303948031, y: 3.832858392},
-                {x: 4.540844006, y: 6.68869055},
-                {x: 4.466581413, y: 3.333277284},
-                {x: 6.354308693, y: 6.108308605},
-                {x: 3.260694856, y: 4.806822323},
-                {x: 6.564494161, y: 4.215871172},
-                {x: 4.113860128, y: 6.509058027},
-                {x: 4.922575313, y: 3.251713577},
-                {x: 6.016069572, y: 6.424816698},
-                {x: 3.372314587, y: 4.357240172},
-                {x: 6.715419404, y: 4.653826245},
-                {x: 3.748966248, y: 6.223688911},
-                {x: 5.383994202, y: 3.292648703},
-                {x: 5.606636547, y: 6.641490816},
-                {x: 3.597982887, y: 3.952694879},
-                {x: 6.746148738, y: 5.116037002},
-                {x: 3.47172973, y: 5.852578431},
-                {x: 5.818507407, y: 3.453214422},
-                {x: 5.154697747, y: 6.743149049},
-                {x: 3.921887643, y: 3.621532102},
-                {x: 6.654529021, y: 5.570117285},
-                {x: 3.301575966, y: 5.421729534},
-                {x: 6.195669482, y: 3.722160225},
-                {x: 4.691919594, y: 6.722668414},
-                {x: 4.321333514, y: 3.386955735},
-                {x: 6.446979859, y: 5.984250622},
-                {x: 3.25042728, y: 4.961330916},
-                {x: 6.489053455, y: 4.080641633},
-                {x: 4.250728001, y: 6.581483946},
-                {x: 4.768332149, y: 3.265402062},
-                {x: 6.138043795, y: 6.329419543},
-                {x: 3.321867556, y: 4.503641761},
-                {x: 6.678102516, y: 4.50354059}
-            ]
         }],
     };
 
@@ -453,7 +412,7 @@ function addData(chart) {
         if (color === 'red') {
             chart.data.datasets[0].data.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
             })
         } else if (color == 'blue') {
             chart.data.datasets[1].data.push({
