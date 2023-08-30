@@ -47,7 +47,10 @@
       <workItem from="1654465064963" duration="36000" />
       <workItem from="1654468094106" duration="42803000" />
       <workItem from="1659213479546" duration="1806000" />
-      <workItem from="1660843061437" duration="1384000" />
+      <workItem from="1660843061437" duration="3923000" />
+      <workItem from="1661269532336" duration="319000" />
+      <workItem from="1662649692632" duration="571000" />
+      <workItem from="1662651920856" duration="2978000" />
     </task>
     <task id="LOCAL-00001" summary="have good hard coded example">
       <created>1654492637746</created>
@@ -91,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654520075239</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix removal error">
+      <created>1660845375869</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1660845375869</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,6 +114,7 @@
     <MESSAGE value="darken dots on graph" />
     <MESSAGE value="better example with target colors" />
     <MESSAGE value="supress unneccesary legend items" />
-    <option name="LAST_COMMIT_MESSAGE" value="supress unneccesary legend items" />
+    <MESSAGE value="fix removal error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix removal error" />
   </component>
 </project>

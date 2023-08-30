@@ -236,22 +236,25 @@ function chartIt() {
     let outs = [];
     let maybes = [];
 
-    raw_data.forEach(item => {
+    raw_data.forEach((item, i) => {
         const color = getColor(parseFloat(item.importance), parseFloat(item.feasibility));
         if (color === 'red') {
             ins.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
+                number: i
             })
         } else if (color == 'blue') {
             maybes.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
+                number: i
             })
         } else {
             outs.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
+                number: i
             })
 
         }
@@ -399,30 +402,42 @@ function chartIt() {
             },
             plugins: [bullsEyeBackground],
         });
-    }
 
+    }
+    const {chartingArea} = chart;
+       chart.data.datasets.forEach((dataset,x) => {
+        dataset.data.forEach((point, i) => {
+            let textWidth = chart.measureText(point.number).width;
+            chart.fillText(point.number, point.x -(textWidth/2), point.y-10);
+        })
+    })
 
 }
+
+
 
 function addData(chart) {
     const raw_data = get_features();
 
-    raw_data.forEach(item => {
+    raw_data.forEach((item, i) => {
         const color = getColor(parseFloat(item.importance), parseFloat(item.feasibility));
         if (color === 'red') {
             chart.data.datasets[0].data.push({
                 x: parseFloat(item.importance),
                 y: parseFloat(item.feasibility),
+                number: i
             })
         } else if (color == 'blue') {
             chart.data.datasets[1].data.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
+                number: i
             })
         } else {
             chart.data.datasets[2].data.push({
                 x: parseFloat(item.importance),
-                y: parseFloat(item.feasibility)
+                y: parseFloat(item.feasibility),
+                number: i
             })
 
         }
